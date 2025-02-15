@@ -1,2 +1,1 @@
-# HLT
-HrotonLauncher-Terminal
+# HrotonLauncher-Terminal
