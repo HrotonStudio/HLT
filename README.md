@@ -1,5 +1,16 @@
-# HrotonLauncher-Terminal
-HrotonLauncher-Terminal, 简称 HLT 一款基于命令行的 Minecraft 开服器
+<h1 align = "center" > HrotonLauncher-Terminal</h1>
+<p align = "center">HrotonLauncher-Terminal, 简称<strong>HLT</strong>一款基于命令行的 Minecraft 开服器</p>
+
 ## 为什么选择 HLT
 ### 低内存占用
-由于我们采用了命令行界面，所以占用内存更小，让您的服务器
+由于我们采用了命令行界面，所以占用内存较小，让您的服务器有更多的运行内存来运行 Minecraft。
+### 软件体积小
+由于我们采用了命令行界面，所以占用磁盘空间较小，不必担心开服器占用过多空间。
+### 自动查找 Java
+无需手动导入，HLT将会自动在启动时查看 Java是否成功安装并查找版本号。
+### 核心下载速度快
+我们拥有自己的服务端下载镜像源，下载速度快，并为了保证镜像源始终可用，我们特设置主、副两个镜像源，并在下载时根据下载速度自动切换。
+### 无需学习成本，极易上手
+虽然我们采用命令行界面，但我们的操作过程并不繁琐，您所需要做的最多不过是输入基础的配置信息。
+## 环境配置
+由于HLT现只有Windows版本，所以需要服务器上安装Windows系统
