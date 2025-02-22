@@ -1,0 +1,7 @@
+*.log
+*.json
+*.jar
+server.properties
+eula.txt
+/logs
+/world

@@ -35,6 +35,7 @@ from time import strftime,localtime
 import os
 import requests
 import threading
+import configparser
 
 console = console.Console()
 # 日志输出函数
@@ -187,7 +188,7 @@ class Main():
         
         if corename in self.getcorelist(self):
             log("info", "正在下载服务端")
-            corelink = f"http://hroton.cn/api/servercore/{corename}"
+            corelink = f"http://hroton.cn/servercore/{corename}"
             response = requests.get(corelink, stream=True)
             if response.status_code != 200:
                 response = response = requests.get(f"http://api.hroton.cn:16680/api/servercore/{corename}")
@@ -218,7 +219,7 @@ class Main():
 
         Table.add_row(name,f"{MinimumMemory} MB",f"{MaximumMemory} MB")
         console.print(Table)
-        Choose = console.input("[blod blue]请确定以上信息是否无误，确认即代表您同意Minecraft的最终用户协议(Y/N):")
+        Choose = console.input("[blod blue]请确定以上信息是否无误，确认的同时也代表您同意Minecraft的最终用户协议(https://account.mojang.com/documents/minecraft_eula)\n(Y/N):")
         if Choose == "Y" or Choose == "y":
             log("info", "正在启动服务器")
             self.StartServer(self)
@@ -249,17 +250,38 @@ class Main():
                 with stream:
                     for line in iter(stream.readline, ''):
                         callback(line.strip('\n'))
+
                     
             def log_stdout(line):
+                def read_config(file_path):
+                    config = {}
+                    with open(file_path, 'r') as file:
+                        for line in file:
+                            # 去掉行尾的换行符，并跳过空行或注释（如果有的话）
+                            line = line.strip()
+                            if not line or line.startswith('#'):
+                                continue
+                            
+                            # 将每行分割成键和值
+                            key, value = line.split('=', 1)
+                            config[key.strip()] = value.strip()
+
+                    return config
+                
                 console.print(f"{line.strip()}")
                 if "Done" in line:
+                    serverProperties = read_config(os.getcwd() + f"/server.properties")
                     word = corename.split("-")
+                    ip = "localhost" if serverProperties['server-ip'] == None else serverProperties['server-ip']
+                    ver = ".".join(word[1].split(".")[:-1])
                     log("info", "服务器启动成功！")
-                    log("info", f"端口默认为25565,已在127.0.0.1上运行")
+                    log("info", f"端口为{serverProperties['server-port']},已在{ip}上运行")
                     log("info", f"最大内存已经设置为{MaximumMemory}MB，最小内存已经设置为{MinimumMemory}MB")
-                    log("info", f"版本为{word[1]}")
+                    log("info", f"版本为{ver}")
                     log("info", f"服务器服务端为{word[0]}")
-                    log("info", f"您可以将此窗口最小化，但请不要关闭此窗口！(Ctrl + C 退出程序)")
+                    if serverProperties['online-mode'] == "false":
+                        log("warning", f"发现您正在使用离线模式，这可能会让别有用心的人获取服务器的op权限，强烈建议安装登陆验证插件以保障安全！")
+                    log("info", f"您可以将此窗口最小化，同时你能在现在以后台管理者身份运行指令，但请不要关闭此窗口！(Ctrl + C 退出程序)")
 
  
             def log_stderr(line):
@@ -285,5 +307,8 @@ class Main():
             Main.Menu(Main)
 
 if __name__ == "__main__":
-    init()
-    Main.Menu(Main)
+    try:
+        init()
+        Main.Menu(Main)
+    except KeyboardInterrupt:
+        exit()
