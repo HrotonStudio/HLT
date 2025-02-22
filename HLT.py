@@ -22,7 +22,7 @@
 # SOFTWARE.
 
 # Basic Information
-# Version: 1.1.1
+# Version: 1.2.0
 # Author: HrotonStudio
 # Github: https://github.com/HrotonStudio/HLT
 # Website: https://hroton.cn/
