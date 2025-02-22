@@ -149,8 +149,8 @@ class Main():
 
     def getcorelist(self):
         response = requests.get("https://hroton.cn/api/servercore/CoreList.json")
-        if response.status_code != 200:
-            response = response = requests.get("http://api.hroton.cn:16680/api/servercore/CoreList.json")
+        # if response.status_code != 200:
+        #     response = response = requests.get("http://api.hroton.cn:16680/api/servercore/CoreList.json")  这里的备用线路挂掉了
         response.encoding = "utf-8"
         corelist_json = response.text
         import json
@@ -190,8 +190,8 @@ class Main():
             log("info", "正在下载服务端")
             corelink = f"http://hroton.cn/servercore/{corename}"
             response = requests.get(corelink, stream=True)
-            if response.status_code != 200:
-                response = response = requests.get(f"http://api.hroton.cn:16680/api/servercore/{corename}")
+            # if response.status_code != 200:
+            #     response = response = requests.get(f"http://api.hroton.cn:16680/api/servercore/{corename}")   这里的备用节点挂掉了
             content_size = int(response.headers['Content-Length'])/1024
             if os.path.exists(f"./{name}") == False:
                 os.mkdir(name)
