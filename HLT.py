@@ -188,7 +188,7 @@ class Main():
         
         if corename in self.getcorelist(self):
             log("info", "正在下载服务端")
-            corelink = f"http://b2.sjcmc.cn:16565/api/servercore/{corename}"
+            corelink = f"http://hroton.cn/servercore/{corename}"
             response = requests.get(corelink, stream=True)
             if response.status_code != 200:
                 response = response = requests.get(f"http://api.hroton.cn:16680/api/servercore/{corename}")
